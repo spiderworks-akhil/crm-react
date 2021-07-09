@@ -1,25 +1,63 @@
-import logo from './logo.svg';
 import './App.css';
+import LoginPage from './Components/Pages/Login/LoginPage'
+import Header from './Components/Common/Header'
+import LeftMenu from './Components/Common/LeftMenu'
+import LeadListingPage from './Components/Pages/LeadListing/LeadListigPage'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useEffect, useState,useContext} from "react";
+import {Route,Switch,Link,useHistory } from "react-router-dom";
+import AuthContext from "./Components/Auth/Auth";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [status,setStatus] = useState(1);
+    const [token,setToken] = useState(localStorage.getItem("auth-token"));
+    let history = useHistory ();
+    const authCtx = useContext(AuthContext);
+    const isLoggedIn =  authCtx.isLoggedIn;
+
+    const SwitchStatusHandler = (status_id) => {
+        setStatus(status_id)
+    }
+
+    const loginHandler = (token) => {
+        setToken(authCtx.token);
+    }
+    const logoutHandler = () =>{
+        authCtx.logout();
+        setToken();
+    }
+
+    console.log(authCtx.isLoggedIn);
+
+    if(!authCtx.isLoggedIn){
+        return <LoginPage onLogin={loginHandler} />;
+    }
+
+
+
+    return (
+            <div>
+                <div className="App">
+                    <Header onLogOut={logoutHandler} onStatusChange={SwitchStatusHandler} />
+                    <section className="body-part">
+                        <LeftMenu/>
+
+                        <div className="content-1">
+                            <Switch>
+                                <Route path="/">
+                                    <LeadListingPage lead_type_id={status}/>
+                                </Route>
+                                <Route path="/login">
+                                    <LoginPage onLogin={loginHandler} />
+                                </Route>
+                            </Switch>
+                        </div>
+                    </section>
+                </div>
+                <ToastContainer />
+            </div>
+    );
 }
 
 export default App;
