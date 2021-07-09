@@ -10,6 +10,11 @@ const LeadFilter = (props) => {
         props.onStatusChange(event.target.value);
     }
 
+    const onSearchChangeHandler = (event) => {
+        props.onSearch(event.target.value);
+    }
+
+
 
     return (
         <div>
@@ -23,7 +28,7 @@ const LeadFilter = (props) => {
             </form>
 
             <div className="box-shadow pad-10 lead-left-item marg-bot-10">
-                <input type="text" className="form-control" placeholder="Search lead"/>
+                <input type="text" className="form-control" placeholder="Search lead" onKeyUp={onSearchChangeHandler}/>
             </div>
         </div>
 

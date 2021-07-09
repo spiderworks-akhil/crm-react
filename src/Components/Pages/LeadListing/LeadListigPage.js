@@ -18,7 +18,13 @@ const LeadListingPage = (props) => {
     const [status,setStatus] = useState("");
     const [list_loading, setListLoading] = useState(true);
     const [detail_loading, setDetailLoading] = useState(false);
+
+    const [showSearchResults, setShowSearchResults] = useState(false);
+    const [filteredData, setFilteredData] = useState([]);
+
     const authCtx = useContext(AuthContext);
+
+    let data = [];
 
     const SwitchStatusHandler = (status_id) => {
         setStatus(status_id)
@@ -60,9 +66,32 @@ const LeadListingPage = (props) => {
         setListLoading(false);
     }
 
+    const SearchLeadHandler = (keyword) => {
+        let kw = keyword;
+        let re = new RegExp(kw, 'gi');
+        let data = lead_lists.filter(function(obj) {
+            return obj.name.match(re);
+        });
+        setFilteredData(data);
+        setShowSearchResults(true);
+
+        if(keyword.length === 0){
+            setShowSearchResults(false);
+        }
+
+    }
+
     useEffect(() => {
         fetchLeads(props.lead_type_id,status);
     },[props.lead_type_id,status]);
+
+    if(showSearchResults){
+        data = filteredData;
+    }else{
+        data = lead_lists;
+    }
+
+
 
 
 
@@ -70,11 +99,15 @@ const LeadListingPage = (props) => {
     return (
         <div className="panel-container">
             <div className="panel-left">
-                <LeadFilter onStatusChange={SwitchStatusHandler} />
+
+                <LeadFilter onStatusChange={SwitchStatusHandler} onSearch={SearchLeadHandler} />
                 {list_loading ? <Loader   type="ThreeDots"
                                           color="#000"
                                           height={30}
-                                          width={30}/>: <LeadLists onSwitchLead={SwitchLeadHandler} lead_lists={lead_lists}/>}
+                                          width={30}/>:
+                    <LeadLists  onSwitchLead={SwitchLeadHandler} lead_lists={data}/>
+                }
+
 
             </div>
             <div className="splitter-icon"></div>
