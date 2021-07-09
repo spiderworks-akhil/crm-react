@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a74b02cd-3b47-48e8-b5aa-020f53d4e87f" name="Default" comment="" />
+    <list default="true" id="a74b02cd-3b47-48e8-b5aa-020f53d4e87f" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AddLabel.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AddLabel.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="9" selection-start-column="1" selection-end-column="9" />
+            <state relative-caret-position="119">
+              <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -44,8 +47,8 @@
       <file leaf-file-name="AddLabel.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+            <state relative-caret-position="127">
+              <caret line="78" column="32" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="32" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
                 <element signature="e#1778#3168#0" />
@@ -57,7 +60,7 @@
       <file leaf-file-name="LeadDetail.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/LeadDetail.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
+            <state relative-caret-position="1243">
               <caret line="111" column="45" lean-forward="true" selection-start-line="111" selection-start-column="45" selection-end-line="111" selection-end-column="45" />
               <folding>
                 <element signature="e#0#53#0" expanded="true" />
@@ -69,8 +72,8 @@
       <file leaf-file-name="LeadListigPage.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadListigPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="73" column="11" lean-forward="true" selection-start-line="73" selection-start-column="11" selection-end-line="73" selection-end-column="11" />
+            <state relative-caret-position="512">
+              <caret line="55" column="80" lean-forward="true" selection-start-line="55" selection-start-column="56" selection-end-line="55" selection-end-column="80" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -78,11 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="53" column="32" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="32" />
+            <state>
+              <caret line="39" column="8" lean-forward="true" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -186,18 +189,18 @@
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/EditLead.js" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Name.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.css" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Tabs/Activity.js" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/LeadDetail.js" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Tabs/Notes.js" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Tabs/Calls.js" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/ToolBar.js" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddCall.js" />
-        <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.js" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Tabs/SingleActivity.js" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadFilter.js" />
         <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadListigPage.js" />
         <option value="$PROJECT_DIR$/public/index.html" />
+        <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.js" />
+        <option value="$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.css" />
       </list>
     </option>
   </component>
@@ -377,12 +380,12 @@
       <workItem from="1625587639786" duration="594000" />
       <workItem from="1625629354068" duration="12939000" />
       <workItem from="1625718161325" duration="28510000" />
-      <workItem from="1625772183875" duration="17165000" />
+      <workItem from="1625772183875" duration="18780000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="114673000" />
+    <option name="totallyTimeSpent" value="116288000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1048" extended-state="6" />
@@ -738,13 +741,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="9" selection-start-column="1" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddCall.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -759,27 +755,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="68" selection-start-line="14" selection-start-column="68" selection-end-line="14" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="e#0#46#0" expanded="true" />
-            <element signature="e#1778#3168#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/LeadDetail.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="111" column="45" lean-forward="true" selection-start-line="111" selection-start-column="45" selection-end-line="111" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -800,20 +775,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="39" column="8" lean-forward="true" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/LeadDetail.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1243">
+          <caret line="111" column="45" lean-forward="true" selection-start-line="111" selection-start-column="45" selection-end-line="111" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadListigPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="73" column="11" lean-forward="true" selection-start-line="73" selection-start-column="11" selection-end-line="73" selection-end-column="11" />
+        <state relative-caret-position="512">
+          <caret line="55" column="80" lean-forward="true" selection-start-line="55" selection-start-column="56" selection-end-line="55" selection-end-column="80" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
+    <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="53" column="32" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="32" />
+        <state relative-caret-position="127">
+          <caret line="78" column="32" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+            <element signature="e#1778#3168#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Pages/LeadListing/LeadDetails/Toolbar/AddLabel.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
         </state>
       </provider>
     </entry>

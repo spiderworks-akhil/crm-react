@@ -17,6 +17,7 @@ const AddLabel = (props) => {
         backgroundColor: "black",
         color : "white"
     })
+    const [labelList,setLabelList] = useState([]);
 
     const [title, setTitile] = useState('');
     const [backgroundColor, setBackgroundColor] = useState("#000000");
@@ -43,12 +44,11 @@ const AddLabel = (props) => {
     },[])
 
     const fetchLabels = async () => {
-        let path = "labels/get-label";
-        await axios.get(path+'?api_token='+authCtx.token).then(res => {
+        let path = "labels";
+        await axios.get(path+'?api_token='+authCtx.token+'&leads_id='+props.lead_id).then(res => {
 
             if(res.data.status === "success"){
-                notify(res.data.status,res.data.code,res.data.message);
-                handleClose(true);
+                setLabelList(res.data.data.labels)
             }else{
                 if(res.data.errors){
                     let errors = (res.data.errors.errors);
@@ -71,6 +71,7 @@ const AddLabel = (props) => {
 
             if(res.data.status === "success"){
                 notify(res.data.status,res.data.code,res.data.message);
+                fetchLabels();
                 handleClose(true);
             }else{
                 if(res.data.errors){
@@ -117,7 +118,7 @@ const AddLabel = (props) => {
                 </div>
             </Modal>
 
-            <span className="label-ui"> Label</span>
+            {labelList.map(obj=> <span className="label-ui" style={{backgroundColor:obj.background_colour,color:obj.text_colour}}> {obj.title}</span> )}
             <div className="btn-group mr-1">
 
                 <button type="button" className="btn def-btn  btn-icon" onClick={handleShow}>
