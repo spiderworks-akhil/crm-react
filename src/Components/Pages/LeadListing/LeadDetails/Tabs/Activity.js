@@ -16,7 +16,6 @@ const Activity = (props) => {
         await axios.get(path+'?api_token='+authCtx.token+'&leads_id='+props.lead_id).then(res => {
 
             if(res.data.status === "success"){
-                notify(res.data.status,res.data.code,res.data.message);
                 setActivityList(res.data.data.activities)
             }else{
                 if(res.data.errors){

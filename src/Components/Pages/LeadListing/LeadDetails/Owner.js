@@ -1,18 +1,107 @@
+import AuthContext from "../../../Auth/Auth";
+import {Modal, Button} from "react-bootstrap";
+import {useState,useEffect,useContext} from  "react";
+import axios from "axios/index";
+import {Spinner} from "react-bootstrap"
+import notify from "../../../Helpers/Helper";
+
 const Owner = (props) => {
+
+    const authCtx = useContext(AuthContext);
+    const [show, setShow] = useState(false);
+    const [button_loading, setButtonLoading] = useState(false);
+    const [orgnisationId, setOrgnisationId] = useState('');
+
+    const [usersList, setUsersList] = useState([]);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const handleSubmit = () => {
+        assignUser(orgnisationId)
+    }
+
+    const fetchUsers = async () => {
+        let path = "users";
+        await axios.get(path+'?api_token='+authCtx.token).then(res => {
+
+            if(res.data.status === "success"){
+                setUsersList(res.data.data.users);
+            }else{
+                if(res.data.errors){
+                    let errors = (res.data.errors.errors);
+                    console.log("Erross :", errors)
+                    for(const [key, value] of  Object.entries(errors)){
+                        notify('error',res.data.code,value);
+                    }
+                }
+
+            }
+        })
+    }
+
+    const assignUser = async (id) => {
+        let path = "leads/assign-user?leads_id="+props.lead_id+"&user_id="+id;
+        await axios.get(path+'&api_token='+authCtx.token).then(res => {
+            if(res.data.status === "success"){
+                notify(res.data.status,res.data.code,res.data.message);
+                props.onAssign(props.lead_id);
+                handleClose();
+            }else{
+                if(res.data.errors){
+                    let errors = (res.data.errors.errors);
+                    console.log("Erross :", errors)
+                    for(const [key, value] of  Object.entries(errors)){
+                        notify('error',res.data.code,value);
+                    }
+                }
+            }
+        })
+    }
+
+    const organisationsChangeHandler = (e) =>{
+        setOrgnisationId(e.target.value);
+    }
+
+    useEffect(() =>{
+        fetchUsers();
+        console.log(props.owner)
+    },[])
+
+
     return (
         <div className="col-md-3 pl-0">
+
+            <Modal show={show} onHide={handleClose}>
+                <div className="modal-header">
+                    <h5 className="modal-title">Assign this lead to a user</h5>
+                    <button type="button" className="close" onClick={handleClose}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div className="modal-body">
+                    <select className="form-control" placeholder="Please choose a user" onChange={organisationsChangeHandler}>
+                        {usersList.map(obj => <option value={obj.id}>{obj.name}</option> )}
+                    </select>
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-prm" onClick={handleSubmit}>Assign Now
+                        {button_loading ? <Spinner className="ml-1" animation="border" size="sm" /> : ''}
+                    </button>
+                    <button type="button" className="btn btn-secondary"  onClick={handleClose}>Close</button>
+                </div>
+            </Modal>
+
             <div className="lead-details-item">
                         <span className=" d-flex align-items-center">
-                            <i className="ri-user-3-line" data-toggle="tooltip" data-placement="bottom"
-                               title="Staff name"></i> <b> {props.owner}</b> <a href="#" className="point-drop"
-                                                                                   data-toggle="dropdown"
-                                                                                   aria-haspopup="true"
-                                                                                   aria-expanded="false">  <i
+                            <i className="ri-building-2-line" data-toggle="tooltip" data-placement="bottom"
+                               title="Branch"></i><b> {props.owner? props.owner.name : "Assign to a user"}</b> <a href="#" className="point-drop"
+                                                                                                               data-toggle="dropdown"
+                                                                                                               aria-haspopup="true"
+                                                                                                               aria-expanded="false">  <i
                             className="ri-arrow-down-s-fill"></i>  </a>
                            <div className="dropdown-menu dropdown-menu-right">
-                              <button className="dropdown-item" type="button">Action 33</button>
-                              <button className="dropdown-item" type="button">Another action</button>
-                              <button className="dropdown-item" type="button">Something else here</button>
+                              <button className="dropdown-item" type="button" onClick={handleShow}>Assign to a user</button>
                            </div>
                         </span>
             </div>

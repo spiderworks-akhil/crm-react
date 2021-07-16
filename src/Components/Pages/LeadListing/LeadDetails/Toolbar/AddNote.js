@@ -1,9 +1,11 @@
 import axios from "axios/index";
 import notify from "../../../../Helpers/Helper";
 import {Spinner} from "react-bootstrap"
-import {useState} from "react"
+import {useState, useContext} from "react"
+import AuthContext from "../../../../Auth/Auth";
 
 const AddNote = (props) => {
+    const authCtx = useContext(AuthContext);
 
     const [button_loading, setButtonLoading] = useState(false);
     const [note, setNote] = useState("");
@@ -14,16 +16,18 @@ const AddNote = (props) => {
 
     const updateNote = async (data) => {
         setButtonLoading(true);
-        await axios.post('notes/store?api_token='+localStorage.getItem('auth_token'),data)
+        await axios.post('notes/store?api_token='+authCtx.token,data)
             .then(res => {
                 console.log("Response of leads api : ",res.data.status);
                 if(res.data.status === "success"){
                     notify(res.data.status,res.data.code,res.data.message);
+                    props.noteUpdate(props.lead_id)
                 }else{
                     notify(res.data.status,res.data.code,res.data.message);
                 }
             })
         setButtonLoading(false);
+
     }
 
 

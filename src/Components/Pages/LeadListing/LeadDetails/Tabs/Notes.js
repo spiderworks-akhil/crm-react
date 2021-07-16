@@ -2,7 +2,8 @@ import AuthContext from "../../../../Auth/Auth";
 import {useState,useEffect,useContext} from  "react";
 import axios from "axios/index";
 import notify from "../../../../Helpers/Helper";
-
+import moment from "moment"
+import "./Notes.css"
 const Notes = (props) => {
     const authCtx = useContext(AuthContext);
 
@@ -12,12 +13,11 @@ const Notes = (props) => {
     },[])
 
     const fetchNotes = async () => {
-        let path = "leads/notes";
+        let path = "notes";
         await axios.get(path+'?api_token='+authCtx.token+'&leads_id='+props.lead_id).then(res => {
-console.log(res.data.data)
+
             if(res.data.status === "success"){
-                notify(res.data.status,res.data.code,res.data.message);
-                setNotesList(res.data.data.activities)
+                setNotesList(res.data.data.notes)
             }else{
                 if(res.data.errors){
                     let errors = (res.data.errors.errors);
@@ -31,8 +31,14 @@ console.log(res.data.data)
         })
     }
 
+    if(notesList.length == 0){
+        return <ul className="list-group"> <li>No notes added for this lead </li></ul>
+    }
 
-    return (<>Notes</>);
+
+    return (<ul className="list-group">
+            {notesList.map(obj => <li className="list-group-item" key={obj.id}>{obj.description} - <small>created by {obj.created_user.name}, {moment(obj.created_at).fromNow()}</small></li>)}
+        </ul>);
 
 }
 

@@ -11,7 +11,6 @@ const AddLabel = (props) => {
     const authCtx = useContext(AuthContext);
 
     const [show, setShow] = useState(false);
-    const [path, setPath] = useState('contacts/store');
     const [button_loading, setButtonLoading] = useState(false);
     const [style, setStyle] = useState({
         backgroundColor: "black",

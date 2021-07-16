@@ -1,18 +1,26 @@
 import axios from "axios/index";
 import notify from "../../../../Helpers/Helper";
-import {Spinner} from "react-bootstrap"
+import {Spinner,Modal} from "react-bootstrap"
 import {useState,useContext} from "react"
 import AuthContext from "../../../../Auth/Auth";
+import moment from "moment"
 
 const AddCall = (props) => {
     const authCtx = useContext(AuthContext);
-
+    const [show, setShow] = useState(false);
     const [button_loading, setButtonLoading] = useState(false);
-    const [call, setCall] = useState("");
 
-    const handleCallChange = (e) => {
-        setCall(e.target.value);
-    }
+    const [callTimeNormal, setCallTimeNormal] = useState("");
+    const [callTime, setCallTime] = useState("");
+    const [duration, setDuration] = useState("");
+    const [note, setNote] = useState("");
+
+    const handleCallTimeChange = (e) => { setCallTime(e.target.value); setCallTimeNormal(moment(e.target.value).format('Y-M-d H:m:s'));}
+    const handleDurationChange = (e) => { setDuration(e.target.value); }
+    const handleNoteChange = (e) => { setNote(e.target.value); }
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const updateCall = async (data) => {
         setButtonLoading(true);
@@ -21,6 +29,8 @@ const AddCall = (props) => {
                 console.log("Response of Call api : ",res.data.status);
                 if(res.data.status === "success"){
                     notify(res.data.status,res.data.code,res.data.message);
+                    props.callUpdate();
+                    handleClose();
                 }else{
                     if(res.data.errors){
                         let errors = (res.data.errors.errors);
@@ -38,37 +48,54 @@ const AddCall = (props) => {
     const handleSubmit = () => {
         let data = {
             "leads_id": props.lead_id,
-            "title":"NA",
-            "description": call,
-            "created_by" : 1,
-            "updated_by" : 1,
+            "call_time": callTimeNormal,
+            "duration": duration,
+            "note": note
         }
         updateCall(data)
-        setCall("");
-    }
+        setCallTime("");
+        setDuration("");
+        setNote("");
+}
+
 
     return (
-        <div className="btn-group mr-1">
-            <button type="button" className="btn def-btn  btn-icon" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                <i className="ri-phone-line" data-toggle="tooltip" data-placement="bottom"
-                   title="Add Note"/>
-            </button>
-            <div className="dropdown-menu dropdown-menu-right pad-20 w-auto">
-                <form>
-                    <div className="form-group m-0">
-                        <p className="form-check-label m-0">
-                            <b> Add Call log</b>
-                        </p>
-                    </div>
-                    <hr className="mt-2"/>
-                    <div className="form-group">
-                        <textarea className="form-control" placeholder="Enter Note" onChange={handleCallChange} rows="2" />
-                    </div>
-                    <button type="button" className="btn btn-prm" onClick={handleSubmit}>Save{button_loading ? <Spinner className="ml-1" animation="border" size="sm" /> : ''}</button>
-                    <button type="button" className="btn btn-prm"> Cancel</button>
-                </form>
+        <div className="pb-2">
+            <Modal show={show} onHide={handleClose}>
+                <div className="modal-header">
+                    <h5 className="modal-title">Add your call log for this lead</h5>
+                    <button type="button" className="close" onClick={handleClose}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div className="modal-body">
+                    <label>Call time<span className="badge badge-danger">required</span></label>
+                    <input type="datetime-local" className="form-control" placeholder="Call time" onChange={handleCallTimeChange} value={callTime} />
+
+                    <label>Duration (In seconds )<span className="badge badge-danger">required</span></label>
+                    <input type="text" className="form-control" placeholder="Duration" onChange={handleDurationChange} value={duration} />
+
+                    <label>Notes<span className="badge badge-danger">required</span></label>
+                    <textarea type="text" className="form-control" placeholder="Notes" onChange={handleNoteChange} value={note} />
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-prm" onClick={handleSubmit}>Update Now
+                        {button_loading ? <Spinner className="ml-1" animation="border" size="sm" /> : ''}
+                    </button>
+                    <button type="button" className="btn btn-secondary"  onClick={handleClose}>Close</button>
+                </div>
+            </Modal>
+
+
+            <div className="btn-group mr-1">
+
+                <button type="button" className="btn def-btn  btn-icon" onClick={handleShow}>
+                    <i className="ri-phone-line" data-toggle="tooltip" data-placement="bottom"
+                       title="Add Label" />
+                </button>
+
             </div>
+
         </div>
     );
 }

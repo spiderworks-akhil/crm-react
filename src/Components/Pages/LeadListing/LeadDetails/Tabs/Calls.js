@@ -16,7 +16,6 @@ const Calls = (props) => {
         await axios.get(path+'?api_token='+authCtx.token+'&leads_id='+props.lead_id).then(res => {
             console.log(res.data.data)
             if(res.data.status === "success"){
-                notify(res.data.status,res.data.code,res.data.message);
                 setCallsList(res.data.data.call_logs)
             }else{
                 if(res.data.errors){
@@ -32,8 +31,8 @@ const Calls = (props) => {
     }
 
 
-    return (<ul>
-        {callsList.map(obj => <li>a</li> )}
+    return (<ul className="list-group">
+        {callsList.map(obj => <li className="list-group-item" >{obj.note} {obj.call_time} - {Math.round(obj.duration) +'seconds'}</li> )}
     </ul>);
 
 }

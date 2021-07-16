@@ -13,6 +13,7 @@ const EditLead = (props) => {
     const [company_name, setCompanyName] = useState(props.lead_data.company_name);
     const [title, setTitle] = useState(props.lead_data.title);
     const [requirement, setRequirement] = useState(props.lead_data.requirement);
+    const [modifiedRequirement, setModifiedRequirement] = useState(props.lead_data.detailed_requirement);
 
     const [button_loading, setButtonLoading] = useState(false);
 
@@ -22,6 +23,7 @@ const EditLead = (props) => {
     const handleCompanyChange = (e) => {setCompanyName(e.target.value)};
     const handleTitleChange = (e) => {setTitle(e.target.value)};
     const handleRequirementChange = (e) => {setRequirement(e.target.value)};
+    const handleModifiedRequirementChange = (e) => {setModifiedRequirement(e.target.value)};
 
     const updateLead = async (data) => {
         setButtonLoading(true);
@@ -48,7 +50,8 @@ const EditLead = (props) => {
             company_name : company_name,
             email : email,
             phone_number : phone_number,
-            requirement : requirement
+            requirement : requirement,
+            detailed_requirement : modifiedRequirement,
         }
 
        updateLead(data);
@@ -107,8 +110,16 @@ const EditLead = (props) => {
                     <div className="form-row">
                         <div className="form-group col-md-12">
                             <label htmlFor="inputEmail4">Requirement</label>
-                            <input type="email" className="form-control" id="inputEmail4"
-                                   placeholder="Email" value={requirement} onChange={handleRequirementChange} />
+                            <textarea type="text" className="form-control"
+                                   placeholder="Requirement" value={requirement} onChange={handleRequirementChange} />
+                        </div>
+                    </div>
+
+                    <div className="form-row">
+                        <div className="form-group col-md-12">
+                            <label htmlFor="inputEmail4">Modified Requirement</label>
+                            <textarea type="text" className="form-control"
+                                      placeholder="Modified Requirement" value={modifiedRequirement} onChange={handleModifiedRequirementChange} />
                         </div>
                     </div>
 
