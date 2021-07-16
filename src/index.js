@@ -7,7 +7,7 @@ import axios from 'axios';
 import {BrowserRouter} from "react-router-dom";
 import { AuthContextProvider} from './Components/Auth/Auth'
 
-axios.defaults.baseURL = 'http://works.spiderworks.co.in/crm-admin/api/';
+axios.defaults.baseURL = 'https://works.spiderworks.co.in/crm-admin/api/';
 ReactDOM.render(
     <BrowserRouter>
         <React.StrictMode>

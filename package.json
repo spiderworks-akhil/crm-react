@@ -1,5 +1,6 @@
 {
   "name": "crm-react",
+  "homepage": "https://works.spiderworks.co.in/crm-react/build/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
