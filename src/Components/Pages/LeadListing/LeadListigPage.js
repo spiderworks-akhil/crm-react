@@ -22,6 +22,8 @@ const LeadListingPage = (props) => {
     const [showSearchResults, setShowSearchResults] = useState(false);
     const [filteredData, setFilteredData] = useState([]);
 
+    const [key, setKey] = useState(Math.random());
+
     const authCtx = useContext(AuthContext);
 
     let data = [];
@@ -31,6 +33,7 @@ const LeadListingPage = (props) => {
     }
 
     const SwitchLeadHandler = async (id) => {
+            fetchLeads(props.lead_type_id,status);
             setDetailLoading(true);
             await axios.get('leads/get-lead?api_token='+authCtx.token+'&lead_id='+id)
                 .then(res => {
@@ -100,7 +103,7 @@ const LeadListingPage = (props) => {
         <div className="panel-container">
             <div className="panel-left">
 
-                <LeadFilter onStatusChange={SwitchStatusHandler} onSearch={SearchLeadHandler} />
+                <LeadFilter key={key} onStatusChange={SwitchStatusHandler} onSearch={SearchLeadHandler} />
                 {list_loading ? <Loader   type="ThreeDots"
                                           color="#000"
                                           height={30}
