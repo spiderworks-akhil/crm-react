@@ -2,6 +2,7 @@ import AddNote from './AddNote'
 import './ToolBar.css'
 import AddLabel from "./AddLabel";
 import AddCall from "./AddCall";
+import AddToFav from "./AddToFav";
 
 
 const ToolBar = (props) => {
@@ -12,6 +13,10 @@ const ToolBar = (props) => {
 
     const onCallUpdateHandler = (id) => {
         props.callUpdate(id);
+    }
+
+    const onFavUpdateHandler = (id) => {
+        props.favUpdate(id);
     }
 
     return (
@@ -25,6 +30,7 @@ const ToolBar = (props) => {
                 <div className="d-flex justify-content-end pb-2">
                    <AddNote noteUpdate={onNoteUpdateHandler}  lead_id={props.lead_data.id} />
                    <AddCall callUpdate={onCallUpdateHandler}  lead_id={props.lead_data.id} />
+                   <AddToFav favUpdate={onFavUpdateHandler}  lead_id={props.lead_data.id} fav={props.lead_data.is_favourite} />
                 </div>
             </div>
 

@@ -4,7 +4,8 @@ import "./Stages.css";
 import AuthContext from "../../../../Auth/Auth";
 import notify from "../../../../Helpers/Helper";
 import axios from "axios/index";
-import {Spinner,Modal} from "react-bootstrap"
+import {Spinner,Modal} from "react-bootstrap";
+import Close from "./Close";
 
 const Stages = (props) => {
 
@@ -13,7 +14,8 @@ const Stages = (props) => {
     const handleShow = () => setShow(true);
     const [show, setShow] = useState(false);
     const [button_loading, setButtonLoading] = useState(false);
-    const [key, setKey] = useState(props.lead_id)
+    const [key, setKey] = useState(props.lead_id);
+    const [actions, setActions] = useState([]);
 
     const [toStatusId, setToStatusId] = useState('');
     const [toStatusName, setToStatusName] = useState('');
@@ -49,9 +51,10 @@ const Stages = (props) => {
         setButtonLoading(false);
     }
 
-    const stageClickHandler = (id, name) => {
+    const stageClickHandler = (id, name, actions) => {
         setToStatusId(id);
         setToStatusName(name);
+        setActions(actions);
         setShow(true);
     }
 
@@ -65,7 +68,6 @@ const Stages = (props) => {
     const fetchStages = async () => {
         let path = "leads/get-stages";
         await axios.get(path+'?api_token='+authCtx.token+'&leads_id='+props.lead_id).then(res => {
-
             if(res.data.status === "success"){
                 setStagesList(res.data.data)
             }else{
@@ -89,7 +91,13 @@ const Stages = (props) => {
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div className="modal-body">You are going to change the current stage of this lead to <b>{toStatusName}</b>. Are you sure?</div>
+            <div className="modal-body">You are going to change the current stage of this lead to <b>{toStatusName}</b>. Are you sure?
+                <hr/>
+            <ul>
+                <li><b>This change will trigger following actions</b></li>
+                {actions.map(obj => <li>{obj.name}</li>)}
+            </ul>
+            </div>
             <div className="modal-footer">
                 <button type="button" className="btn btn-prm" onClick={handleSubmit}>Yes
                     {button_loading ? <Spinner className="ml-1" animation="border" size="sm" /> : ''}
@@ -100,14 +108,11 @@ const Stages = (props) => {
 
         <div className="col-md-12">
             <div className="arrow-steps  mt-3">
-                {stagesList.map(obj => <SingleStage onStageClick={stageClickHandler} id={obj.id} name={obj.name} current={obj.is_current}  finished={obj.is_finished} /> )}
+                {stagesList.map(obj => <SingleStage actions={obj.actions} onStageClick={stageClickHandler} id={obj.id} name={obj.name} current={obj.is_current}  finished={obj.is_finished} /> )}
             </div>
 
             <div className="btn-group float-right">
-                <button type="button" className="btn  btn-prm   " data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                    Close <i className="ri-arrow-down-s-fill ml-2 float-right"></i>
-                </button>
+                <Close lead_id={props.lead_id} lead_type_id={props.lead_type_id} />
             </div>
         </div>
     </div>;

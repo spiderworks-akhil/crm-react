@@ -81,6 +81,7 @@ const Owner = (props) => {
                 </div>
                 <div className="modal-body">
                     <select className="form-control" placeholder="Please choose a user" onChange={organisationsChangeHandler}>
+                        <option value="">Please choose</option>
                         {usersList.map(obj => <option value={obj.id}>{obj.name}</option> )}
                     </select>
                 </div>

@@ -17,7 +17,7 @@ import Stages from "./Stages/Stages";
 import ThirdParty from "./../LeadDetails/Tabs/ThirdParty"
 
 
-const LeadDetail = (props) => {
+const LeadDetail = (props) => { console.log(props.lead_data)
 
     const [title,setTitle] = useState(props.lead_data.title)
     const [id,setId] = useState(props.lead_data.id)
@@ -93,13 +93,18 @@ const LeadDetail = (props) => {
         handleShowCalls();
     }
 
+    const onFavUpdateHandler = (id) =>{
+        props.onLeadupdate(id)
+    }
+
+
     if(!props.lead_data){
         return <p>Please select a lead</p>;
     }
     const short_name = props.lead_data.name.substring(0,2).toUpperCase();
     return (
         <div>
-            <ToolBar callUpdate={onCallUpdateHandler}  noteUpdate={onNoteUpdateHandler} lead_data={props.lead_data} />
+            <ToolBar favUpdate={onFavUpdateHandler} callUpdate={onCallUpdateHandler}  noteUpdate={onNoteUpdateHandler} lead_data={props.lead_data} />
             <div className="box-shadow pad-10 lead-right-item">
             <Modal show={show} onHide={handleClose}>
                 <EditLead onCloseModal={handleClose} onLeadUpdate={onLeadUpdateHandler} lead_data={props.lead_data} lead_id={props.lead_data.id} />
@@ -151,7 +156,7 @@ const LeadDetail = (props) => {
                 <DateTime date={updated_at}/>
             </div>
 
-                <Stages lead_id={id} />
+                <Stages lead_id={id} lead_type_id={props.lead_data.lead_types_id} />
                 <hr/>
 
 

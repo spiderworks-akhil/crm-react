@@ -15,7 +15,7 @@ const LeadListingPage = (props) => {
 
     const [lead_lists, setLeadLists] = useState([]);
     const [leadData, setLeadData] = useState("");
-    const [status,setStatus] = useState("");
+    const [status,setStatus] = useState("my-leads");
     const [list_loading, setListLoading] = useState(true);
     const [detail_loading, setDetailLoading] = useState(false);
 

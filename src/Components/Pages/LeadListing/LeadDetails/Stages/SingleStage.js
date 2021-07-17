@@ -1,6 +1,6 @@
 const SingleStage = (props) => {
     const handleStageClick = () => {
-        props.onStageClick(props.id,props.name);
+        props.onStageClick(props.id,props.name,props.actions);
     }
     return <div className={props.current == 1 ? "step d-flex align-items-center progress-4-cntr current" : "step d-flex align-items-center progress-4-cntr"} onClick={handleStageClick}>
                     <span>

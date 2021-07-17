@@ -8,6 +8,34 @@ import {BrowserRouter} from "react-router-dom";
 import { AuthContextProvider} from './Components/Auth/Auth'
 
 axios.defaults.baseURL = 'https://works.spiderworks.co.in/crm-admin/api/';
+
+
+axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    return config;
+}, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+});
+
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+    // Do something with response data
+
+    if(response.data.error){
+        if(response.data.error === 1001){
+            localStorage.clear();
+            window.location.replace(process.env.PUBLIC_URL+'/logout');
+        }
+    }
+
+    console.log("Response : ",response.data.error)
+    return response;
+}, function (error) {
+    // Do something with response error
+    return Promise.reject(error);
+});
+
 ReactDOM.render(
     <BrowserRouter>
         <React.StrictMode>
