@@ -39,12 +39,10 @@ const Stages = (props) => {
                     setKey(Math.random());
                     handleClose();
                 }else{
-                    if(res.data.errors){
-                        let errors = (res.data.errors.errors);
-                        console.log("Erross :", errors)
-                        for(const [key, value] of  Object.entries(errors)){
-                            notify('error',res.data.code,value);
-                        }
+
+                    if(res.data.status === "error"){
+                        console.log("Erross nw :", res.data)
+                        notify('error',res.data.code,res.data.message);
                     }
                 }
             })
@@ -73,7 +71,6 @@ const Stages = (props) => {
             }else{
                 if(res.data.errors){
                     let errors = (res.data.errors.errors);
-                    console.log("Erross :", errors)
                     for(const [key, value] of  Object.entries(errors)){
                         notify('error',res.data.code,value);
                     }

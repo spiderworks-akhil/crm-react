@@ -2,7 +2,8 @@ import notify from "../Helpers/Helper";
 import axios from "axios/index";
 import {useEffect, useState, useContext} from "react";
 import AuthContext from "../Auth/Auth";
-
+import AddLead from "../Pages/home/AddLead";
+import {Modal} from "react-bootstrap";
 
 const Header = (props) => {
     const [leadTypes,setleadTypes] = useState([]);
@@ -28,8 +29,22 @@ const Header = (props) => {
         props.onLogOut();
     }
 
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const onLeadUpdateHandler = (id) =>{
+        console.log(id)
+    }
+
+
+
 
     return (
+        <>
+            <Modal show={show} onHide={handleClose}>
+                <AddLead onCloseModal={handleClose} onLeadUpdate={onLeadUpdateHandler} />
+            </Modal>
         <nav className="navbar navbar-expand-lg navbar-light   admin-nav">
             <div className="container">
 
@@ -55,7 +70,7 @@ const Header = (props) => {
                         <i className="ri-add-line   "></i>
                     </button>
                     <div className="dropdown-menu dropdown-menu-right">
-                        <button className="dropdown-item" type="button">Add Lead</button>
+                        <button className="dropdown-item" type="button" onClick={handleShow}>Add Lead</button>
                         <button className="dropdown-item" type="button">Add Contact</button>
 
                     </div>
@@ -111,7 +126,8 @@ const Header = (props) => {
                 </div>
             </div>
 
-    </nav> );
+    </nav>
+            </>);
 }
 
 export default Header;

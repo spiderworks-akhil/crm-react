@@ -1,25 +1,24 @@
 import {useEffect,useState, useContext} from "react";
 import axios from "axios/index";
-import notify from "../../../Helpers/Helper";
+import notify from "../../Helpers/Helper";
 import {Spinner} from "react-bootstrap"
-import AuthContext from "../../../Auth/Auth";
-import "./EditLead.css";
+import AuthContext from "../../Auth/Auth";
 
 const EditLead = (props) => {
     const authCtx = useContext(AuthContext);
 
-    const [email, setEmail] = useState(props.lead_data.email);
-    const [phone_number, setPhoneNumber] = useState(props.lead_data.phone_number);
-    const [name, setName] = useState(props.lead_data.name);
-    const [company_name, setCompanyName] = useState(props.lead_data.company_name);
-    const [title, setTitle] = useState(props.lead_data.title);
-    const [requirement, setRequirement] = useState(props.lead_data.requirement);
-    const [modifiedRequirement, setModifiedRequirement] = useState(props.lead_data.detailed_requirement);
-    const [location, setLocation] = useState(props.lead_data.location);
-    const [pincode, setPincode] = useState(props.lead_data.pincode);
+    const [email, setEmail] = useState('');
+    const [phone_number, setPhoneNumber] = useState('');
+    const [name, setName] = useState('');
+    const [company_name, setCompanyName] = useState('');
+    const [title, setTitle] = useState('');
+    const [requirement, setRequirement] = useState('');
+    const [modifiedRequirement, setModifiedRequirement] = useState('');
+    const [location, setLocation] = useState('');
+    const [pincode, setPincode] = useState('');
 
 
-    const [leadTypeId, setLeadTypeId] = useState(props.lead_data.lead_types_id);
+    const [leadTypeId, setLeadTypeId] = useState('');
     const [leadTypeList, setLeadTypeList] = useState([]);
 
     const [button_loading, setButtonLoading] = useState(false);
@@ -37,7 +36,7 @@ const EditLead = (props) => {
     const handleLeadTypeIdChange = (e) => {setLeadTypeId(e.target.value)};
 
     const leadTypes = () => {
-            axios.get('lead-types?api_token='+authCtx.token)
+        axios.get('lead-types?api_token='+authCtx.token)
             .then(res => {
                 console.log(res.data)
                 if(res.data.status === "success"){
@@ -50,14 +49,22 @@ const EditLead = (props) => {
 
     const updateLead = async (data) => {
         setButtonLoading(true);
-        await axios.post('leads/update?api_token='+authCtx.token,data)
+        await axios.post('leads/store?api_token='+authCtx.token,data)
             .then(res => {
                 console.log("Response of leads api : ",res.data.status);
                 if(res.data.status === "success"){
                     notify(res.data.status,res.data.code,res.data.message);
                     props.onLeadUpdate(props.lead_data.id);
                 }else{
-                    notify(res.data.status,res.data.code,res.data.message);
+                    if(res.data.errors){
+                        let errors = (res.data.errors.errors);
+                        console.log("Erross :", errors)
+                        for(const [key, value] of  Object.entries(errors)){
+                            notify('error',res.data.code,value);
+                        }
+                    }else{
+                        notify(res.data.status,res.data.code,res.data.message);
+                    }
                 }
             })
         setButtonLoading(false);
@@ -66,7 +73,6 @@ const EditLead = (props) => {
 
     const handleSubmit = () => {
         let data = {
-            id : props.lead_data.id,
             lead_types_id : leadTypeId,
             name : name,
             title : title,
@@ -79,7 +85,7 @@ const EditLead = (props) => {
             detailed_requirement : modifiedRequirement,
         }
 
-       updateLead(data);
+        updateLead(data);
     }
 
     const handleModalClose = () =>  {
@@ -87,7 +93,6 @@ const EditLead = (props) => {
     }
 
     useEffect(() => {
-        title? setTitle(props.lead_data.title) : setTitle(props.lead_data.name+" "+props.lead_data.company_name);
         leadTypes();
     },[])
 
@@ -95,18 +100,19 @@ const EditLead = (props) => {
         <div className="modal-content pad-20">
 
             <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Edit Lead </h5>
+                <h5 className="modal-title" id="exampleModalLabel">Add Lead </h5>
 
                 <select className="form-control lead_type_change" onChange={handleLeadTypeIdChange}>
+                    <option value="">choose</option>
                     {leadTypeList.map(obj => {
                         if(leadTypeId === obj.id)
-                            {
-                                return <option value={obj.id} selected > {obj.name}</option>
-                            }
+                        {
+                            return <option value={obj.id} selected > {obj.name}</option>
+                        }
                         else
-                            {
-                                return <option value={obj.id} > {obj.name}</option>
-                            }
+                        {
+                            return <option value={obj.id} > {obj.name}</option>
+                        }
                     })
                     }
                 </select>
@@ -169,7 +175,7 @@ const EditLead = (props) => {
                         <div className="form-group col-md-12">
                             <label htmlFor="inputEmail4">Requirement</label>
                             <textarea type="text" className="form-control"
-                                   placeholder="Requirement" value={requirement} onChange={handleRequirementChange} />
+                                      placeholder="Requirement" value={requirement} onChange={handleRequirementChange} />
                         </div>
                     </div>
 

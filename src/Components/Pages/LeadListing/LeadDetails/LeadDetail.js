@@ -7,7 +7,7 @@ import Owner from "./Owner";
 import Place from "./Place";
 import DateTime from "./Date";
 import EditLead from "./EditLead";
-import {useState} from "react";
+import {useState, useContext, useEffect} from "react";
 import {Modal} from "react-bootstrap";
 import ToolBar from "./Toolbar/ToolBar";
 import Activity from "./Tabs/Activity"
@@ -15,12 +15,20 @@ import Notes from "./Tabs/Notes"
 import Calls from "./Tabs/Calls"
 import Stages from "./Stages/Stages";
 import ThirdParty from "./../LeadDetails/Tabs/ThirdParty"
+import AuthContext from "../../../Auth/Auth";
+import axios from "axios/index";
+import notify from "../../../Helpers/Helper";
+import Menu from "./Tabs/CustomTabs/Menu"
+import TabContent from "./Tabs/CustomTabs/TabContent"
 
 
-const LeadDetail = (props) => { console.log(props.lead_data)
+const LeadDetail = (props) => {
+
+    const authCtx = useContext(AuthContext);
 
     const [title,setTitle] = useState(props.lead_data.title)
     const [id,setId] = useState(props.lead_data.id)
+    const [lead_type_id,setLeadTypeId] = useState(props.lead_data.lead_types_id)
     const [key,setKey] = useState(props.lead_data.id)
 
     const [name,setName] = useState(props.lead_data.name)
@@ -34,25 +42,50 @@ const LeadDetail = (props) => { console.log(props.lead_data)
     const [created_at,setCreatedAt] = useState(props.lead_data.created_at)
     const [updated_at,setUpdatedAt] = useState(props.lead_data.updated_at)
 
+    const [customTabs , setCustonTabs] = useState([]);
+
     const [assignedUser,setAssignedUser] = useState(props.lead_data.assigned_user)
     const [assignedOrganisation,setAssignedOrganisation] = useState(props.lead_data.assigned_organisation)
-
-
 
     const [showActivityTab,setShowActivityTab] = useState(true);
     const [showNotesTab,setShowNotesTab] = useState(false);
     const [showCallTab,setShowCallTab] = useState(false);
     const [showThirdPartyTab,setShowThirdPartyTab] = useState(false);
+    const [showCustomTab,setShowCustomTab] = useState(false);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    useEffect(()=>{
+        fetchCustomTabs();
+    },[])
+
+    const fetchCustomTabs = async () => {
+        await axios.get('data-tabs?api_token='+authCtx.token+'&lead_type_id='+lead_type_id).then(res =>{
+
+            if(res.data.status === "success"){
+                setCustonTabs(res.data.data.datatabs);
+            }else{
+                if(res.data.errors){
+                    let errors = (res.data.errors.errors);
+                    console.log("Erross :", errors)
+                    for(const [key, value] of  Object.entries(errors)){
+                        notify('error',res.data.code,value);
+                    }
+                }
+
+            }
+
+        })
+    }
 
     const handleShowActivity = () => {
         setShowNotesTab(false);
         setShowCallTab(false);
         setShowActivityTab(true);
         setShowThirdPartyTab(false);
+        setShowCustomTab(0);
 
     }
 
@@ -61,6 +94,7 @@ const LeadDetail = (props) => { console.log(props.lead_data)
         setShowCallTab(false);
         setShowNotesTab(true);
         setShowThirdPartyTab(false);
+        setShowCustomTab(0);
 
     }
 
@@ -69,7 +103,16 @@ const LeadDetail = (props) => { console.log(props.lead_data)
         setShowActivityTab(false);
         setShowCallTab(true);
         setShowThirdPartyTab(false);
+        setShowCustomTab(0);
 
+    }
+
+    const handleTabMenuClick = (id) => {
+        setShowNotesTab(false);
+        setShowActivityTab(false);
+        setShowCallTab(false);
+        setShowThirdPartyTab(false);
+        setShowCustomTab(id);
     }
 
     const handleShowThirdPartyTab = () => {
@@ -77,6 +120,8 @@ const LeadDetail = (props) => { console.log(props.lead_data)
         setShowActivityTab(false);
         setShowCallTab(false);
         setShowThirdPartyTab(true);
+        setShowCustomTab(0);
+
     }
 
     const onLeadUpdateHandler = (id) =>{
@@ -93,14 +138,22 @@ const LeadDetail = (props) => { console.log(props.lead_data)
         handleShowCalls();
     }
 
+    const onThirdPartyUpdateHandler = (id) =>{
+        setKey(Math.random())
+        props.onLeadupdate(id)
+        handleShowThirdPartyTab();
+    }
+
     const onFavUpdateHandler = (id) =>{
         props.onLeadupdate(id)
     }
 
-
     if(!props.lead_data){
         return <p>Please select a lead</p>;
     }
+
+
+
     const short_name = props.lead_data.name.substring(0,2).toUpperCase();
     return (
         <div>
@@ -179,13 +232,28 @@ const LeadDetail = (props) => { console.log(props.lead_data)
                         <a className={showThirdPartyTab ? "nav-link active" : "nav-link" } data-toggle="pill"  role="tab"
                            aria-controls="pills-Calls" aria-selected="false"  onClick={handleShowThirdPartyTab}>ThirdParty</a>
                     </li>
+
+                    {
+                        customTabs.map(obj => {
+                           return <Menu onPress={handleTabMenuClick} show={showCustomTab} id={obj.id} name={obj.name}/>
+                        })
+                    }
+
+
                 </ul>
 
                 <div className="tab-content" id="pills-tabContent">
-                    {showActivityTab ? <Activity key={key} lead_id={id} /> : '' }
+                    {showActivityTab ? <Activity key={key} lead_id={id}  /> : '' }
                     {showNotesTab ? <Notes key={key} lead_id={id} /> : '' }
                     {showCallTab ? <Calls key={key} lead_id={id} /> : '' }
-                    {showThirdPartyTab ? <ThirdParty lead_id={id} /> : '' }
+                    {showThirdPartyTab ? <ThirdParty onAssign={onThirdPartyUpdateHandler} lead_id={id} lead_data={props.lead_data}  /> : '' }
+
+                    {
+                        customTabs.map(obj => {
+                            return <TabContent show={showCustomTab} lead_id={id}  id={obj.id} name={obj.name}/>
+                        })
+                    }
+
                 </div>
 
             </div>

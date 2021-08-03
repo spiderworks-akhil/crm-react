@@ -4,6 +4,7 @@ import {useState,useEffect,useContext} from  "react";
 import axios from "axios/index";
 import {Spinner} from "react-bootstrap"
 import notify from "../../../Helpers/Helper";
+import Api from "../../../Api/Api";
 
 const Owner = (props) => {
 
@@ -11,22 +12,43 @@ const Owner = (props) => {
     const [show, setShow] = useState(false);
     const [button_loading, setButtonLoading] = useState(false);
     const [orgnisationId, setOrgnisationId] = useState('');
+    const [userId, setUserId] = useState('');
 
     const [usersList, setUsersList] = useState([]);
+    const [organisationsList, setOrganisationsList ] = useState([]);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleSubmit = () => {
-        assignUser(orgnisationId)
+        assignUser(userId)
+    }
+
+    const fetchOrganizations = () => {
+        axios.get('organisations?api_token='+authCtx.token).then(res => {
+          if(res.data.status === "success"){
+              setOrganisationsList(res.data.data.organisations);
+          }
+        });
     }
 
     const fetchUsers = async () => {
-        let path = "users";
-        await axios.get(path+'?api_token='+authCtx.token).then(res => {
-
+        let path = "";
+        if(orgnisationId !== ""){
+            path = "users/search-by-branch?organisations_id="+orgnisationId;
+        }else{
+            path = "users?";
+        }
+        await axios.get(path+'&api_token='+authCtx.token).then(res => {
+console.log('users list : ', res.data.data)
             if(res.data.status === "success"){
-                setUsersList(res.data.data.users);
+                if(typeof res.data.data.users !== 'undefined'){
+                    setUsersList(res.data.data.users);
+                }else if(typeof res.data.data !== 'undefined'){
+                    setUsersList(res.data.data);
+                }else{
+                    setUsersList([]);
+                }
             }else{
                 if(res.data.errors){
                     let errors = (res.data.errors.errors);
@@ -63,10 +85,15 @@ const Owner = (props) => {
         setOrgnisationId(e.target.value);
     }
 
+    const userChangeHandler = (e) =>{
+        setUserId(e.target.value);
+    }
+
     useEffect(() =>{
         fetchUsers();
+        fetchOrganizations();
         console.log(props.owner)
-    },[])
+    },[orgnisationId])
 
 
     return (
@@ -80,7 +107,15 @@ const Owner = (props) => {
                     </button>
                 </div>
                 <div className="modal-body">
-                    <select className="form-control" placeholder="Please choose a user" onChange={organisationsChangeHandler}>
+
+                    <label htmlFor="">Please select a branch if you want of filter users</label>
+                    <select className="form-control" placeholder="Please choose a branch" onChange={organisationsChangeHandler}>
+                        <option value="">Please choose</option>
+                        {organisationsList.map(obj => <option value={obj.id}>{obj.name}</option> )}
+                    </select>
+
+                    <label htmlFor="">Please select a user</label>
+                    <select className="form-control" placeholder="Please choose a user" onChange={userChangeHandler}>
                         <option value="">Please choose</option>
                         {usersList.map(obj => <option value={obj.id}>{obj.name}</option> )}
                     </select>

@@ -10,6 +10,8 @@ const ThirdParty = (props) => {
     const authCtx = useContext(AuthContext);
     const [products, setProducts] = useState([]);
     const [vendors, setVendors] = useState([]);
+    const [productName, setProductName] = useState('');
+    const [assignedProductName, setAssignedProductName] = useState(props.lead_data.other_product);
 
     const [vendorId, setVendorId] = useState('');
 
@@ -72,6 +74,10 @@ console.log(res.data);
         assignProduct(e.value);
     }
 
+    const ProductNameChangeHandler = (e) => {;
+        setProductName(e.target.value);
+    }
+
     const VendorChangeHandler = (e) => {
         setVendorId(e.value);
     }
@@ -112,6 +118,35 @@ console.log(res.data);
         })
     }
 
+    const assignProductName = async () => {
+
+        let data = {
+            id : props.lead_id,
+            lead_types_id : props.lead_data.lead_types_id,
+            other_product : productName,
+            name : props.lead_data.name,
+            email : props.lead_data.email,
+            phone : props.lead_data.phone,
+            title : props.lead_data.title,
+        }
+
+        await axios.post('leads/update?api_token='+authCtx.token,data)
+            .then(res => {
+                if(res.data.status === "success"){
+                    notify(res.data.status,res.data.code,res.data.message);
+                    setAssignedProductName(res.data.data.other_product);
+                    props.onAssign(props.lead_id);
+                }else{
+                    if(res.data.errors){
+                        let errors = (res.data.errors.errors);
+                        for(const [key, value] of  Object.entries(errors)){
+                            notify('error',res.data.code,value);
+                        }
+                    }
+                }
+        })
+    }
+
     const assignVendorAndNotify = async () => {
         let path = "leads/assign-to-vendor";
         let data = {leads_id:props.lead_id,vendors_id:vendorId,notify:1};
@@ -130,17 +165,45 @@ console.log(res.data);
         })
     }
 
+    return (
+        <div className="row">
 
-    return (<div className="col-md-6">
-        <label>Choose a product</label>
-        <Select options={productOptions} onChange={ProductChangeHandler}/>
-        <hr/>
-        <label>Choose a vendor</label>
-        <Select options={vendorOptions} onChange={VendorChangeHandler}/>
-        <hr/>
-        <button className="btn btn-dark mr-1" onClick={assignVendor}>Assign silently</button>
-        <button className="btn btn-success"  onClick={assignVendorAndNotify}>Assign with vendor notification</button>
-    </div>);
+            <div className="col-md-6">
+
+                <div className="col-md-12">
+                    {typeof assignedProductName !== "undefined" && assignedProductName !== null ? <p>Assigned product - {assignedProductName}</p> : <p /> }
+                    {typeof props.lead_data.product !== "undefined" && props.lead_data.product !== null ? <p>Assigned product - {props.lead_data.product.product_name}</p> : <p /> }
+
+                </div>
+
+                <label>Choose a product</label>
+                <Select options={productOptions} onChange={ProductChangeHandler}/>
+                <small>Or, If not able to find the product in above list, please mention it here</small>
+                <input className="form-control" type="text" onChange={ProductNameChangeHandler} placeholder="Enter the name of product"/>
+
+                {productName.length > 0 ?
+                    <div>
+                        <hr/>
+                        <button className="btn btn-dark mr-1" onClick={assignProductName}>Assign</button>
+                    </div>
+                    :
+                    <div />
+                }
+            </div>
+            <div className="col-md-6">
+
+                <div className="col-md-12">
+                    {typeof props.lead_data.vendor !== "undefined" && props.lead_data.vendor !== null ? <p>Assigned vendor - {props.lead_data.vendor.name}</p> : <p /> }
+                </div>
+
+                <label>Choose a vendor</label>
+                <Select options={vendorOptions} onChange={VendorChangeHandler}/>
+                <hr/>
+                <button className="btn btn-dark mr-1" onClick={assignVendor}>Assign silently</button>
+                <button className="btn btn-success"  onClick={assignVendorAndNotify}>Assign with vendor notification</button>
+            </div>
+        </div>
+        );
 }
 
 export default ThirdParty;
