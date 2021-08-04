@@ -51,6 +51,9 @@ function App() {
                                 <Route path="/login">
                                     <LoginPage onLogin={loginHandler} />
                                 </Route>
+                                <Route path="/logout">
+                                    <LoginPage onLogin={loginHandler} />
+                                </Route>
                             </Switch>
                         </div>
                     </section>
