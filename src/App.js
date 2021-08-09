@@ -45,7 +45,10 @@ function App() {
 
                         <div className="content-1">
                             <Switch>
-                                <Route path="/">
+                                <Route path="/" exact>
+                                    <LeadListingPage lead_type_id={status}/>
+                                </Route>
+                                <Route path="/leads/:id">
                                     <LeadListingPage lead_type_id={status}/>
                                 </Route>
                                 <Route path="/login">

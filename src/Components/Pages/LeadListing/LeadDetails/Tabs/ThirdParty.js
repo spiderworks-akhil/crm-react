@@ -120,17 +120,10 @@ console.log(res.data);
 
     const assignProductName = async () => {
 
-        let data = {
-            id : props.lead_id,
-            lead_types_id : props.lead_data.lead_types_id,
-            other_product : productName,
-            name : props.lead_data.name,
-            email : props.lead_data.email,
-            phone : props.lead_data.phone,
-            title : props.lead_data.title,
-        }
 
-        await axios.post('leads/update?api_token='+authCtx.token,data)
+        let data = {leads_id:props.lead_id,products_id:productName};
+
+        await axios.post('leads/assign-to-product?api_token='+authCtx.token,data)
             .then(res => {
                 if(res.data.status === "success"){
                     notify(res.data.status,res.data.code,res.data.message);

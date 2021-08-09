@@ -14,6 +14,7 @@ const Close = (props) =>{
     const [button_loading, setButtonLoading] = useState(false);
     const [key, setKey] = useState(props.lead_id);
     const [actions, setActions] = useState([]);
+    const [closingStatus, setLeadClosingStatus] = useState([]);
 
     //form
     const [closeType, setCloseType] = useState('');
@@ -24,6 +25,26 @@ const Close = (props) =>{
 
     const handleCloseType = (e) => { setCloseType(e.target.value); };
     const handleRemarksChange = (e) => {setRemarks(e.target.value)};
+
+    const fetchLeadClosingStatus = async() => {
+        let path = "leads/get-closing-statuses";
+        await axios.get(path+'?api_token='+authCtx.token+'&lead_type_id='+props.lead_type_id+'&pipeline_id='+props.pipeline_id).then(res => {
+
+            if(res.data.status === "success"){
+                console.log(res.data.data)
+                setLeadClosingStatus(res.data.data);
+            }else{
+                if(res.data.errors){
+                    let errors = (res.data.errors.errors);
+                    console.log("Erross :", errors)
+                    for(const [key, value] of  Object.entries(errors)){
+                        notify('error',res.data.code,value);
+                    }
+                }
+
+            }
+        })
+    }
 
     const handleSubmit = () => {
         let data = {
@@ -77,6 +98,7 @@ const Close = (props) =>{
     const [stagesList, setStagesList] = useState([]);
     useEffect(() => {
         fetchClosingActions();
+        fetchLeadClosingStatus();
     },[key])
 
     return (
@@ -91,43 +113,16 @@ const Close = (props) =>{
                 <div className="modal-body">You are going to close this lead please input all the details
                     <div className="form-row">
                         <div key={`inline-radio`} className="mb-3">
-                        <Form.Check
-                            inline
-                            label="WON"
-                            value="WON"
-                            name="group1"
-                            type="radio"
-                            onChange={handleCloseType}
-                            id={`inline-radio-1`}
-                        />
-                        <Form.Check
-                            inline
-                            label="LOST"
-                            value="LOST"
-                            name="group1"
-                            onChange={handleCloseType}
-                            type="radio"
-                            id={`inline-radio-2`}
-                        />
-                            <Form.Check
+                            {closingStatus.map((obj,index) => <Form.Check
                                 inline
-                                label="FUTURE"
-                                value="FUTURE"
+                                label={obj.name}
+                                value={obj.id}
                                 name="group1"
-                                onChange={handleCloseType}
                                 type="radio"
-                                id={`inline-radio-3`}
-                            />
+                                onChange={handleCloseType}
+                                id={`inline-radio-`+index}
+                            />)}
 
-                            <Form.Check
-                                inline
-                                label="INVALID"
-                                value="INVALID"
-                                name="group1"
-                                onChange={handleCloseType}
-                                type="radio"
-                                id={`inline-radio-4`}
-                            />
                         </div>
                     </div>
                     <hr/>

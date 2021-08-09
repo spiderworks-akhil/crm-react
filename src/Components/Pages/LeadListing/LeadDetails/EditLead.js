@@ -97,7 +97,7 @@ const EditLead = (props) => {
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Edit Lead </h5>
 
-                <select className="form-control lead_type_change" onChange={handleLeadTypeIdChange}>
+                <select className="form-control lead_type_change d-none" onChange={handleLeadTypeIdChange}>
                     {leadTypeList.map(obj => {
                         if(leadTypeId === obj.id)
                             {

@@ -3,6 +3,7 @@ import LeadLists from './LeadLists';
 import LeadDetail from './LeadDetails/LeadDetail';
 import axios from 'axios';
 import Loader from "react-loader-spinner";
+import { useParams } from "react-router-dom";
 
 
 import { useState ,useEffect, useContext} from 'react';
@@ -13,9 +14,11 @@ import AuthContext from "../../Auth/Auth";
 
 const LeadListingPage = (props) => {
 
+    const { id } = useParams();
+
     const [lead_lists, setLeadLists] = useState([]);
     const [leadData, setLeadData] = useState("");
-    const [status,setStatus] = useState("my-leads");
+    const [status,setStatus] = useState("unassigned-leads");
     const [list_loading, setListLoading] = useState(true);
     const [detail_loading, setDetailLoading] = useState(false);
 
@@ -31,6 +34,7 @@ const LeadListingPage = (props) => {
     const SwitchStatusHandler = (status_id) => {
         setStatus(status_id)
     }
+
 
     const SwitchLeadHandler = async (id) => {
             fetchLeads(props.lead_type_id,status);
@@ -86,6 +90,9 @@ const LeadListingPage = (props) => {
 
     useEffect(() => {
         fetchLeads(props.lead_type_id,status);
+        if(typeof id !== "undefined"){
+            SwitchLeadHandler(id);
+        }
     },[props.lead_type_id,status]);
 
     if(showSearchResults){

@@ -72,7 +72,7 @@ const AddCall = (props) => {
                     <label>Call time<span className="badge badge-danger">required</span></label>
                     <input type="datetime-local" className="form-control" placeholder="Call time" onChange={handleCallTimeChange} value={callTime} />
 
-                    <label>Duration (In seconds )<span className="badge badge-danger">required</span></label>
+                    <label>Duration (In Minutes )<span className="badge badge-danger">required</span></label>
                     <input type="text" className="form-control" placeholder="Duration" onChange={handleDurationChange} value={duration} />
 
                     <label>Notes<span className="badge badge-danger">required</span></label>

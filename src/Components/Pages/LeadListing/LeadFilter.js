@@ -20,10 +20,10 @@ const LeadFilter = (props) => {
         <div>
             <form className="form-inline first-form select-with-bg marg-bot-10 w-min-100">
                 <select className="form-control full-width" onChange={onStatusChangeHandler}>
+                    <option value="unassigned-leads">Get unassigned leads</option>
                     <option value="my-leads">Get my leads</option>
                     <option value="my-branch-leads">Get branch leads</option>
                     <option value="my-favourite-leads">Get favourite leads</option>
-                    <option value="unassigned-leads">Get unassigned leads</option>
                 </select>
             </form>
 

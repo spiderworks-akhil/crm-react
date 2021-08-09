@@ -21,6 +21,8 @@ const AddLabel = (props) => {
     const [title, setTitile] = useState('');
     const [backgroundColor, setBackgroundColor] = useState("#000000");
     const [textColor, setTextColor] = useState("#FFFFFF");
+    const [labelId, setLabelId] = useState('');
+    const [labels, setLabels] = useState([]);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -30,17 +32,46 @@ const AddLabel = (props) => {
     const handleSubmit = () => {
         let data = {
             leads_id: props.lead_id,
-            title:title,
+            name:title,
             text_colour:textColor,
-            background_colour:backgroundColor
+            bg_colour:backgroundColor
         };
+        let path = 'labels/store';
+        updateLabel(data,path);
+    }
+
+    const handleSelectSubmit = () => {
+        let data = {
+            "leads_id": props.lead_id,
+            "labels_id": labelId
+        }
         let path = 'labels/store';
         updateLabel(data,path);
     }
 
     useEffect(() => {
         fetchLabels();
+        fetchAllLabels();
     },[])
+
+    const fetchAllLabels = async () => {
+        let path = "labels";
+        await axios.get(path+'?api_token='+authCtx.token+'&lead_types_id='+props.lead_type_id).then(res => {
+
+            if(res.data.status === "success"){
+                setLabels(res.data.data.labels)
+            }else{
+                if(res.data.errors){
+                    let errors = (res.data.errors.errors);
+                    console.log("Erross :", errors)
+                    for(const [key, value] of  Object.entries(errors)){
+                        notify('error',res.data.code,value);
+                    }
+                }
+
+            }
+        })
+    }
 
     const fetchLabels = async () => {
         let path = "labels";
@@ -63,6 +94,8 @@ const AddLabel = (props) => {
 
     const handleBackgroundColorChange = (color) => { setBackgroundColor(color.hex); setStyle({backgroundColor: backgroundColor,color : textColor}); };
     const handleTextColorChange = (color) => { setTextColor(color.hex);  setStyle({backgroundColor: backgroundColor,color : textColor}); };
+
+    const handleSelectChange = (e) => { setLabelId(e.target.value); };
 
     const updateLabel = async (data,path) => {
         setButtonLoading(true);
@@ -96,6 +129,12 @@ const AddLabel = (props) => {
                     </button>
                 </div>
                 <div className="modal-body">
+                    <select className="form-control" onChange={handleSelectChange}>
+                        <option value="">Choose</option>
+                        {labels.map(obj =>  <option value={obj.id}>{obj.name}</option> ) }
+                    </select>
+                    <button className="btn btn-primary" onClick={handleSelectSubmit}>Add</button>
+                    <hr/>
                     <label>Label name <span className="badge badge-danger">required</span></label>
                     <input type="text" className="form-control" placeholder="Name" onChange={handleName} />
 

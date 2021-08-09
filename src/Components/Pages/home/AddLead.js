@@ -3,10 +3,11 @@ import axios from "axios/index";
 import notify from "../../Helpers/Helper";
 import {Spinner} from "react-bootstrap"
 import AuthContext from "../../Auth/Auth";
+import { useHistory } from "react-router-dom";
 
 const EditLead = (props) => {
+    const history = useHistory();
     const authCtx = useContext(AuthContext);
-
     const [email, setEmail] = useState('');
     const [phone_number, setPhoneNumber] = useState('');
     const [name, setName] = useState('');
@@ -18,22 +19,27 @@ const EditLead = (props) => {
     const [pincode, setPincode] = useState('');
 
 
-    const [leadTypeId, setLeadTypeId] = useState('');
+
+    const [leadTypeId, setLeadTypeId] = useState(1);
     const [leadTypeList, setLeadTypeList] = useState([]);
 
     const [button_loading, setButtonLoading] = useState(false);
 
     const handleEmailChange = (e) => {setEmail(e.target.value)};
     const handlePhoneNumberChange = (e) => {setPhoneNumber(e.target.value)};
-    const handleNameChange = (e) => {setName(e.target.value)};
-    const handleCompanyChange = (e) => {setCompanyName(e.target.value)};
+    const handleNameChange = (e) => {
+        setName(e.target.value)
+        setTitle(name+' '+company_name);
+    };
+    const handleCompanyChange = (e) => {setCompanyName(e.target.value)
+        setTitle(name+' '+company_name);};
     const handleTitleChange = (e) => {setTitle(e.target.value)};
     const handleRequirementChange = (e) => {setRequirement(e.target.value)};
     const handleLocationChange = (e) => {setLocation(e.target.value)};
     const handlePincodeChange = (e) => {setPincode(e.target.value)};
 
     const handleModifiedRequirementChange = (e) => {setModifiedRequirement(e.target.value)};
-    const handleLeadTypeIdChange = (e) => {setLeadTypeId(e.target.value)};
+    const handleLeadTypeIdChange = (e) => {setLeadTypeId(e.target.value); alert(e.target.value);};
 
     const leadTypes = () => {
         axios.get('lead-types?api_token='+authCtx.token)
@@ -54,7 +60,9 @@ const EditLead = (props) => {
                 console.log("Response of leads api : ",res.data.status);
                 if(res.data.status === "success"){
                     notify(res.data.status,res.data.code,res.data.message);
-                    props.onLeadUpdate(props.lead_data.id);
+console.log('Id of the lead : '+res.data.data.id);
+                    history.push('/leads/'+res.data.data.id);
+                    history.go();
                 }else{
                     if(res.data.errors){
                         let errors = (res.data.errors.errors);
@@ -102,7 +110,7 @@ const EditLead = (props) => {
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Add Lead </h5>
 
-                <select className="form-control lead_type_change" onChange={handleLeadTypeIdChange}>
+                <select className="form-control lead_type_change d-none" onChange={handleLeadTypeIdChange}>
                     <option value="">choose</option>
                     {leadTypeList.map(obj => {
                         if(leadTypeId === obj.id)

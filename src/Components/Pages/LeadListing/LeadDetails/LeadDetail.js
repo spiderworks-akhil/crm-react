@@ -161,6 +161,7 @@ const LeadDetail = (props) => {
             <div className="box-shadow pad-10 lead-right-item">
             <Modal show={show} onHide={handleClose}>
                 <EditLead onCloseModal={handleClose} onLeadUpdate={onLeadUpdateHandler} lead_data={props.lead_data} lead_id={props.lead_data.id} />
+                <EditLead onCloseModal={handleClose} onLeadUpdate={onLeadUpdateHandler} lead_data={props.lead_data} lead_id={props.lead_data.id} />
             </Modal>
             <div className="row  lead-left-item mb-2">
                 <div className="col-md-12">
@@ -209,7 +210,7 @@ const LeadDetail = (props) => {
                 <DateTime date={updated_at}/>
             </div>
 
-                <Stages lead_id={id} lead_type_id={props.lead_data.lead_types_id} />
+                <Stages lead_id={id} lead_type_id={props.lead_data.lead_types_id} pipeline_id={props.lead_data.lead_type_pipelines_id} />
                 <hr/>
 
 

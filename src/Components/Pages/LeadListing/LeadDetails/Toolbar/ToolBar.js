@@ -23,7 +23,7 @@ const ToolBar = (props) => {
         <div className="row">
 
             <div className="col-md-5">
-                <AddLabel lead_id={props.lead_data.id}/>
+                <AddLabel lead_id={props.lead_data.id} lead_type_id={props.lead_data.lead_types_id}/>
             </div>
 
             <div className="col-md-7  ">

@@ -89,10 +89,15 @@ const Stages = (props) => {
                 </button>
             </div>
             <div className="modal-body">You are going to change the current stage of this lead to <b>{toStatusName}</b>. Are you sure?
-                <hr/>
+                {actions.length>0 ? <hr/> : '' }
             <ul>
-                <li><b>This change will trigger following actions</b></li>
-                {actions.map(obj => <li>{obj.name}</li>)}
+                {actions.length>0 ? <li><b>This change will trigger following actions</b></li> : ''}
+                {actions.map(obj =>
+                    <li>{obj.name}
+                    {obj.template.mail_to ? <span><br />Mail to : {obj.template.mail_to}</span> : ''}
+                    {obj.template.mail_cc ? <span><br />CC : {obj.template.mail_cc}</span> : ''}
+                    </li>
+                )}
             </ul>
             </div>
             <div className="modal-footer">
@@ -109,7 +114,7 @@ const Stages = (props) => {
             </div>
 
             <div className="btn-group float-right">
-                <Close lead_id={props.lead_id} lead_type_id={props.lead_type_id} />
+                <Close pipeline_id={props.pipeline_id} lead_id={props.lead_id} lead_type_id={props.lead_type_id} />
             </div>
         </div>
     </div>;

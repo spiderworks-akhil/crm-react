@@ -31,7 +31,7 @@ const Header = (props) => {
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {setShow(true)};
 
     const onLeadUpdateHandler = (id) =>{
         console.log(id)
@@ -64,17 +64,12 @@ const Header = (props) => {
                     </select>
                 </form>
 
+                <button className="btn btn-primary" onClick={handleShow}>
+                    <i className="ri-add-line d-inline-block"></i> Add Lead
+                </button>
 
-                <div className="btn-group mr-2">
-                    <button type="button" className="btn  btn-prm   " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i className="ri-add-line   "></i>
-                    </button>
-                    <div className="dropdown-menu dropdown-menu-right">
-                        <button className="dropdown-item" type="button" onClick={handleShow}>Add Lead</button>
-                        <button className="dropdown-item" type="button">Add Contact</button>
 
-                    </div>
-                </div>
+
 
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
