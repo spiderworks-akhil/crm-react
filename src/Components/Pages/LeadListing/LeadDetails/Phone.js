@@ -1,6 +1,6 @@
 const Phone = (props) => {
     const ChangeLead = () => {
-        props.showModal();
+        alert(props.phone);
     }
     return (
         <div className="col-md-3 pl-0">

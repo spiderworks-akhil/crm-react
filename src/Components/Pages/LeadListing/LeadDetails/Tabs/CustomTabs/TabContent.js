@@ -29,7 +29,16 @@ const TabContent = (props) => {
 
                 if(res.data.data.field_data){
                     setFieldsData(JSON.parse(res.data.data.field_data.data))
-                    console.log("fileddata :", fieldsData)
+                    console.log("field data 1:", fieldsData)
+                    let f = [...formFields];
+                    Object.keys(fieldsData).forEach((key,index) => {
+                        f[index] = {};
+                        f[index]['field'] = key;
+                        f[index]['value'] = fieldsData[key];
+                        setFormFields(f);
+
+                    })
+                    console.log("field data 2:", fieldsData)
                 }
             }else{
                 if(res.data.errors){
@@ -95,27 +104,58 @@ const TabContent = (props) => {
             "tabs_id": props.id,
             "data": formFields
         }
-        console.log("Dta going to submit" , data);
+        console.log("Data going to submit" , data);
         updateContent(data);
     }
 
 
+    const options = (data,selected) => {
+        const myArr = data.split(",");
+        return myArr.map(obj => {   return <option value={obj} selected={selected===obj? 'true' : 'false'}>{obj}</option> })
+    }
 
-    console.log("data : ",fieldsData);
 
 
     return <div className="tab-pane fade show active"  role="tabpanel"
                 aria-labelledby="pills-Activity-tab">
         <div className="qa-message-list">
 
-            { fieldsData  ? <p>{fieldsData.map(obj => <p>{obj.field} : {obj.value}</p>)}</p> :  <></> }
+            <div className="row">
 
-            { dataFields  ? dataFields.map((obj,index) => <div className="row">
                 <div className="col-md-6">
-                    <label>{obj.name}</label><br />
-                    <input className="form-control" id={index} name={obj.field_name} type="text" onChange={handleFormChange}/>
+                    { dataFields  ? dataFields.map((obj,index) => <div className="row">
+                        <div className="col-md-12"> {console.log(obj)}
+                            <label>{obj.name}</label><br />
+
+                            {(obj.field_type === "Small Text") ?
+                                <input className="form-control" id={index} name={obj.field_name} type="text"
+                                       onChange={handleFormChange}
+                                       defaultValue={fieldsData[obj.field_name]? fieldsData[obj.field_name] : ''}
+                                /> :
+
+                                <select className="form-control"  id={index} name={obj.field_name} onChange={handleFormChange}>
+                                    {options(obj.possible_values,fieldsData[obj.field_name])}
+                                </select>
+
+                            }
+                        </div>
+                    </div>) : ''}
                 </div>
-            </div>) : ''}
+
+                <div className="col-md-6 " >
+                    { fieldsData  ? <ul className="list-group custom-key-list">
+                        {Object.keys(fieldsData).map((key) =>
+                        key ?
+                             <li className="list-group-item"><span className="key-field">{key}</span>{fieldsData[key]} </li>
+                            :
+                            ''
+                    )}
+                    </ul> :  <></>
+                    }
+                </div>
+            </div>
+
+
 
             { dataFields.length >= 1  ? <button className="btn btn-primary" onClick={handleSubmit}>Submit  {button_loading ? <Spinner className="ml-1" animation="border" size="sm" /> : ''}</button>: ''}
         </div>

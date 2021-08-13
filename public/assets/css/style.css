@@ -2483,3 +2483,29 @@ form.is-editing .btn-edit {
  
 
 }
+
+input{
+    margin-bottom: 5px !important;
+}
+
+.form-group {
+    margin-bottom: 0rem;
+}
+
+
+.custom-key-list{
+
+}
+.custom-key-list li{
+     padding: 0px 5px;
+     margin: 0px;
+    font-weight: 500;
+ }
+
+.custom-key-list li span{
+    background: white;
+    text-transform: capitalize;
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+}

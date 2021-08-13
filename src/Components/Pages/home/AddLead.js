@@ -17,6 +17,8 @@ const EditLead = (props) => {
     const [modifiedRequirement, setModifiedRequirement] = useState('');
     const [location, setLocation] = useState('');
     const [pincode, setPincode] = useState('');
+    const [address, setAddress] = useState('');
+    const [secondaryPhoneNumber, setSecondaryPhoneNumber] = useState('');
 
 
 
@@ -29,14 +31,16 @@ const EditLead = (props) => {
     const handlePhoneNumberChange = (e) => {setPhoneNumber(e.target.value)};
     const handleNameChange = (e) => {
         setName(e.target.value)
-        setTitle(name+' '+company_name);
+        setTitle(e.target.value+' '+company_name);
     };
     const handleCompanyChange = (e) => {setCompanyName(e.target.value)
-        setTitle(name+' '+company_name);};
+        setTitle(name+' '+e.target.value);};
     const handleTitleChange = (e) => {setTitle(e.target.value)};
     const handleRequirementChange = (e) => {setRequirement(e.target.value)};
     const handleLocationChange = (e) => {setLocation(e.target.value)};
     const handlePincodeChange = (e) => {setPincode(e.target.value)};
+    const handleAddressChange = (e) => {setAddress(e.target.value)};
+    const handleSecondaryPhoneNumberChange = (e) => {setSecondaryPhoneNumber(e.target.value)};
 
     const handleModifiedRequirementChange = (e) => {setModifiedRequirement(e.target.value)};
     const handleLeadTypeIdChange = (e) => {setLeadTypeId(e.target.value); alert(e.target.value);};
@@ -85,6 +89,8 @@ console.log('Id of the lead : '+res.data.data.id);
             name : name,
             title : title,
             company_name : company_name,
+            address : address,
+            secondary_phone_number : secondaryPhoneNumber,
             email : email,
             phone_number : phone_number,
             requirement : requirement,
@@ -142,19 +148,39 @@ console.log('Id of the lead : '+res.data.data.id);
                             <input type="text" className="form-control" id="inputPassword4"
                                    placeholder="Organization"  value={company_name} onChange={handleCompanyChange} />
                         </div>
+
+                        <div className="form-group col-md-12">
+                            <label htmlFor="inputPassword4">Address</label>
+                            <input type="text" className="form-control" id="inputPassword4"
+                                   placeholder="Address"  value={address} onChange={handleAddressChange} />
+                        </div>
+
+
                     </div>
 
                     <div className="form-row">
                         <div className="form-group col-md-12">
-                            <label htmlFor="inputEmail4">Title</label>
-                            <input type="text" className="form-control" id="inputEmail4"
-                                   placeholder="Title" value={title} onChange={handleTitleChange}/>
+                            <label htmlFor="inputEmail4">Email</label>
+                            <input type="email" className="form-control" id="inputEmail4"
+                                   placeholder="Email" value={email} onChange={handleEmailChange} />
                         </div>
-                        <div className="form-group col-md-12">
+                    </div>
+
+                    <div className="form-row">
+
+
+                        <div className="form-group col-md-6">
                             <label htmlFor="inputPassword4">Phone</label>
                             <input type="text" className="form-control" id="inputPassword4"
                                    placeholder="Phone" value={phone_number} onChange={handlePhoneNumberChange} />
                         </div>
+
+                        <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">Secondary Phone number</label>
+                            <input type="text" className="form-control" id="inputPassword4"
+                                   placeholder="Phone" value={secondaryPhoneNumber} onChange={handleSecondaryPhoneNumberChange} />
+                        </div>
+
                     </div>
 
 
@@ -171,15 +197,17 @@ console.log('Id of the lead : '+res.data.data.id);
                         </div>
                     </div>
 
-                    <div className="form-row">
-                        <div className="form-group col-md-12">
-                            <label htmlFor="inputEmail4">Email</label>
-                            <input type="email" className="form-control" id="inputEmail4"
-                                   placeholder="Email" value={email} onChange={handleEmailChange} />
-                        </div>
-                    </div>
+
 
                     <div className="form-row">
+
+
+                        <div className="form-group col-md-12">
+                            <label htmlFor="inputEmail4">Title</label>
+                            <input type="text" className="form-control" id="inputEmail4"
+                                   placeholder="Title" value={title} onChange={handleTitleChange}/>
+                        </div>
+
                         <div className="form-group col-md-12">
                             <label htmlFor="inputEmail4">Requirement</label>
                             <textarea type="text" className="form-control"

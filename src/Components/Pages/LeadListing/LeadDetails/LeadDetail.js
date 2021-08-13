@@ -20,6 +20,7 @@ import axios from "axios/index";
 import notify from "../../../Helpers/Helper";
 import Menu from "./Tabs/CustomTabs/Menu"
 import TabContent from "./Tabs/CustomTabs/TabContent"
+import Warranty from "./Tabs/Warranty";
 
 
 const LeadDetail = (props) => {
@@ -34,6 +35,7 @@ const LeadDetail = (props) => {
     const [name,setName] = useState(props.lead_data.name)
     const [primary_contact_id,setPrimaryContactId] = useState(props.lead_data.primary_contact_id)
     const [phone_number,setPhoneNumber] = useState(props.lead_data.phone_number)
+    const [secondary_phone_number,setSecondayPhoneNumber] = useState(props.lead_data.secondary_phone_number)
     const [email,setEmail] = useState(props.lead_data.email)
     const [requirement,setRequirement] = useState(props.lead_data.requirement)
     const [modifiedRequirement, setModifiedRequirement] = useState(props.lead_data.detailed_requirement)
@@ -52,6 +54,7 @@ const LeadDetail = (props) => {
     const [showCallTab,setShowCallTab] = useState(false);
     const [showThirdPartyTab,setShowThirdPartyTab] = useState(false);
     const [showCustomTab,setShowCustomTab] = useState(false);
+    const [showWarrantyTab,setShowWarrantyTab] = useState(false);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -86,6 +89,7 @@ const LeadDetail = (props) => {
         setShowActivityTab(true);
         setShowThirdPartyTab(false);
         setShowCustomTab(0);
+        setShowWarrantyTab(false);
 
     }
 
@@ -95,6 +99,7 @@ const LeadDetail = (props) => {
         setShowNotesTab(true);
         setShowThirdPartyTab(false);
         setShowCustomTab(0);
+        setShowWarrantyTab(false);
 
     }
 
@@ -102,6 +107,17 @@ const LeadDetail = (props) => {
         setShowNotesTab(false);
         setShowActivityTab(false);
         setShowCallTab(true);
+        setShowThirdPartyTab(false);
+        setShowCustomTab(0);
+        setShowWarrantyTab(false);
+
+    }
+
+    const handleShowWarranty = () => {
+        setShowNotesTab(false);
+        setShowActivityTab(false);
+        setShowCallTab(false);
+        setShowWarrantyTab(true);
         setShowThirdPartyTab(false);
         setShowCustomTab(0);
 
@@ -113,6 +129,7 @@ const LeadDetail = (props) => {
         setShowCallTab(false);
         setShowThirdPartyTab(false);
         setShowCustomTab(id);
+        setShowWarrantyTab(false);
     }
 
     const handleShowThirdPartyTab = () => {
@@ -121,6 +138,7 @@ const LeadDetail = (props) => {
         setShowCallTab(false);
         setShowThirdPartyTab(true);
         setShowCustomTab(0);
+        setShowWarrantyTab(false);
 
     }
 
@@ -161,7 +179,6 @@ const LeadDetail = (props) => {
             <div className="box-shadow pad-10 lead-right-item">
             <Modal show={show} onHide={handleClose}>
                 <EditLead onCloseModal={handleClose} onLeadUpdate={onLeadUpdateHandler} lead_data={props.lead_data} lead_id={props.lead_data.id} />
-                <EditLead onCloseModal={handleClose} onLeadUpdate={onLeadUpdateHandler} lead_data={props.lead_data} lead_id={props.lead_data.id} />
             </Modal>
             <div className="row  lead-left-item mb-2">
                 <div className="col-md-12">
@@ -200,7 +217,7 @@ const LeadDetail = (props) => {
                 <Name primary_contact_id={primary_contact_id} name={props.lead_data.name} lead_id={props.lead_data.id}/>
                 <Company company={company_name} />
                 <Email showModal={handleShow} email={email}/>
-                <Phone showModal={handleShow} phone={phone_number}/>
+                <Phone showModal={handleShow} phone={phone_number+" / "+secondary_phone_number}/>
             </div>
             <hr className="mt-2 mb-2"/>
             <div className="row m-0 lead-details">
@@ -229,6 +246,13 @@ const LeadDetail = (props) => {
                         <a className={showCallTab ? "nav-link active" : "nav-link" } data-toggle="pill"  role="tab"
                            aria-controls="pills-Calls" aria-selected="false"  onClick={handleShowCalls}>Calls</a>
                     </li>
+
+                    <li className="nav-item" role="presentation">
+                        <a className={showWarrantyTab ? "nav-link active" : "nav-link" } data-toggle="pill"  role="tab"
+                           aria-controls="pills-Calls" aria-selected="false"  onClick={handleShowWarranty}>Warranty</a>
+                    </li>
+
+
                     <li className="nav-item" role="presentation">
                         <a className={showThirdPartyTab ? "nav-link active" : "nav-link" } data-toggle="pill"  role="tab"
                            aria-controls="pills-Calls" aria-selected="false"  onClick={handleShowThirdPartyTab}>ThirdParty</a>
@@ -247,6 +271,7 @@ const LeadDetail = (props) => {
                     {showActivityTab ? <Activity key={key} lead_id={id}  /> : '' }
                     {showNotesTab ? <Notes key={key} lead_id={id} /> : '' }
                     {showCallTab ? <Calls key={key} lead_id={id} /> : '' }
+                    {showWarrantyTab ? <Warranty key={key} lead_id={id} lead_data={props.lead_data}  /> : '' }
                     {showThirdPartyTab ? <ThirdParty onAssign={onThirdPartyUpdateHandler} lead_id={id} lead_data={props.lead_data}  /> : '' }
 
                     {

@@ -1,8 +1,13 @@
+import {useHistory} from "react-router-dom";
+
 const LeadSingleList = (props) => {
+    const history = useHistory();
     let activeClass = "";
     const short_name = props.data.name.substring(0,2).toUpperCase();
     const onClickHandler = (event) => {
-        props.onLeadSelction(props.data.id);
+        // props.onLeadSelction(props.data.id);
+        history.push('/leads/'+props.data.id);
+        history.go();
     }
     if(props.active === props.data.id){
         activeClass = "active-lead-left";

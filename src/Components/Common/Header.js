@@ -49,7 +49,7 @@ const Header = (props) => {
             <div className="container">
 
                 <a className="navbar-brand" href="/#">
-                    <img src="assets/images/logo.png" height="40" alt="logo" />
+                    <img src="https://crmadmin.pittappillilonline.com/admin/assets/images/logo.png" height="40" alt="logo" />
                 </a>
 
                 <a className="mob-slide-menu">
@@ -58,7 +58,7 @@ const Header = (props) => {
                 </a>
 
 
-                <form className="form-inline my-2 my-lg-0 mr-3 first-form">
+                <form className="form-inline my-2 my-lg-0 mr-3 first-form d-none">
                     <select className="form-control full-width" onChange={onStatusChangeHandler}>
                         {leadTypes.map(obj => <option key={obj.id} value={obj.id}>{obj.name}</option>)}
                     </select>

@@ -12,6 +12,7 @@ const ThirdParty = (props) => {
     const [vendors, setVendors] = useState([]);
     const [productName, setProductName] = useState('');
     const [assignedProductName, setAssignedProductName] = useState(props.lead_data.other_product);
+    const [key, setKey] = useState(Math.random());
 
     const [vendorId, setVendorId] = useState('');
 
@@ -68,7 +69,7 @@ console.log(res.data);
     useEffect(() => {
         fetchProducts();
         fetchVendors();
-    },[])
+    },[key])
 
     const ProductChangeHandler = (e) => {;
         assignProduct(e.value);
@@ -88,6 +89,7 @@ console.log(res.data);
         await axios.post(path+'?api_token='+authCtx.token,data).then(res => {
             if(res.data.status === "success"){
                 notify(res.data.status,res.data.code,res.data.message);
+                setKey(Math.random());
             }else{
                 if(res.data.errors){
                     let errors = (res.data.errors.errors);
@@ -106,6 +108,7 @@ console.log(res.data);
         await axios.post(path+'?api_token='+authCtx.token,data).then(res => {
             if(res.data.status === "success"){
                 notify(res.data.status,res.data.code,res.data.message);
+                setKey(Math.random());
             }else{
                 if(res.data.errors){
                     let errors = (res.data.errors.errors);
@@ -129,6 +132,7 @@ console.log(res.data);
                     notify(res.data.status,res.data.code,res.data.message);
                     setAssignedProductName(res.data.data.other_product);
                     props.onAssign(props.lead_id);
+                    setKey(Math.random());
                 }else{
                     if(res.data.errors){
                         let errors = (res.data.errors.errors);
@@ -161,7 +165,7 @@ console.log(res.data);
     return (
         <div className="row">
 
-            <div className="col-md-6">
+            <div className="col-md-6 d-none">
 
                 <div className="col-md-12">
                     {typeof assignedProductName !== "undefined" && assignedProductName !== null ? <p>Assigned product - {assignedProductName}</p> : <p /> }
@@ -170,7 +174,9 @@ console.log(res.data);
                 </div>
 
                 <label>Choose a product</label>
-                <Select options={productOptions} onChange={ProductChangeHandler}/>
+                <Select options={productOptions} onChange={ProductChangeHandler}
+                        value = {props.lead_data.products_id ? productOptions.filter(option => option.value === props.lead_data.products_id) : ''}
+                />
                 <small>Or, If not able to find the product in above list, please mention it here</small>
                 <input className="form-control" type="text" onChange={ProductNameChangeHandler} placeholder="Enter the name of product"/>
 

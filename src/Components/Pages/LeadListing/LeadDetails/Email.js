@@ -1,6 +1,6 @@
 const Email = (props) => {
     const ChangeLead = () => {
-        props.showModal();
+        alert(props.email);
     }
     return (
         <div className="col-md-3 pl-0">

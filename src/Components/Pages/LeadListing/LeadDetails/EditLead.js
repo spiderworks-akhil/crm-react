@@ -17,6 +17,8 @@ const EditLead = (props) => {
     const [modifiedRequirement, setModifiedRequirement] = useState(props.lead_data.detailed_requirement);
     const [location, setLocation] = useState(props.lead_data.location);
     const [pincode, setPincode] = useState(props.lead_data.pincode);
+    const [address, setAddress] = useState(props.lead_data.address);
+    const [secondaryPhoneNumber, setSecondaryPhoneNumber] = useState(props.lead_data.secondary_phone_number);
 
 
     const [leadTypeId, setLeadTypeId] = useState(props.lead_data.lead_types_id);
@@ -32,6 +34,8 @@ const EditLead = (props) => {
     const handleRequirementChange = (e) => {setRequirement(e.target.value)};
     const handleLocationChange = (e) => {setLocation(e.target.value)};
     const handlePincodeChange = (e) => {setPincode(e.target.value)};
+    const handleAddressChange = (e) => {setAddress(e.target.value)};
+    const handleSecondaryPhoneNumberChange = (e) => {setSecondaryPhoneNumber(e.target.value)};
 
     const handleModifiedRequirementChange = (e) => {setModifiedRequirement(e.target.value)};
     const handleLeadTypeIdChange = (e) => {setLeadTypeId(e.target.value)};
@@ -71,6 +75,8 @@ const EditLead = (props) => {
             name : name,
             title : title,
             company_name : company_name,
+            address : address,
+            secondary_phone_number : secondaryPhoneNumber,
             email : email,
             phone_number : phone_number,
             requirement : requirement,
@@ -128,19 +134,39 @@ const EditLead = (props) => {
                             <input type="text" className="form-control" id="inputPassword4"
                                    placeholder="Organization"  value={company_name} onChange={handleCompanyChange} />
                         </div>
+
+                        <div className="form-group col-md-12">
+                            <label htmlFor="inputPassword4">Address</label>
+                            <input type="text" className="form-control" id="inputPassword4"
+                                   placeholder="Address"  value={address} onChange={handleAddressChange} />
+                        </div>
+
+
                     </div>
 
                     <div className="form-row">
                         <div className="form-group col-md-12">
-                            <label htmlFor="inputEmail4">Title</label>
-                            <input type="text" className="form-control" id="inputEmail4"
-                                   placeholder="Title" value={title} onChange={handleTitleChange}/>
+                            <label htmlFor="inputEmail4">Email</label>
+                            <input type="email" className="form-control" id="inputEmail4"
+                                   placeholder="Email" value={email} onChange={handleEmailChange} />
                         </div>
-                        <div className="form-group col-md-12">
+                    </div>
+
+                    <div className="form-row">
+
+
+                        <div className="form-group col-md-6">
                             <label htmlFor="inputPassword4">Phone</label>
                             <input type="text" className="form-control" id="inputPassword4"
                                    placeholder="Phone" value={phone_number} onChange={handlePhoneNumberChange} />
                         </div>
+
+                        <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">Secondary Phone number</label>
+                            <input type="text" className="form-control" id="inputPassword4"
+                                   placeholder="Phone" value={secondaryPhoneNumber} onChange={handleSecondaryPhoneNumberChange} />
+                        </div>
+
                     </div>
 
 
@@ -157,19 +183,21 @@ const EditLead = (props) => {
                         </div>
                     </div>
 
-                    <div className="form-row">
-                        <div className="form-group col-md-12">
-                            <label htmlFor="inputEmail4">Email</label>
-                            <input type="email" className="form-control" id="inputEmail4"
-                                   placeholder="Email" value={email} onChange={handleEmailChange} />
-                        </div>
-                    </div>
+
 
                     <div className="form-row">
+
+
+                        <div className="form-group col-md-12">
+                            <label htmlFor="inputEmail4">Title</label>
+                            <input type="text" className="form-control" id="inputEmail4"
+                                   placeholder="Title" value={title} onChange={handleTitleChange}/>
+                        </div>
+
                         <div className="form-group col-md-12">
                             <label htmlFor="inputEmail4">Requirement</label>
                             <textarea type="text" className="form-control"
-                                   placeholder="Requirement" value={requirement} onChange={handleRequirementChange} />
+                                      placeholder="Requirement" value={requirement} onChange={handleRequirementChange} />
                         </div>
                     </div>
 
