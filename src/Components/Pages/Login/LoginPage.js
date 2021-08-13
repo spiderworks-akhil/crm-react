@@ -4,9 +4,10 @@ import axios from "axios/index";
 import notify from "../../Helpers/Helper";
 import { ToastContainer } from 'react-toastify';
 import AuthContext from "../../Auth/Auth";
-
+import {Route,Switch,Link,useHistory } from "react-router-dom";
 
 const LoginPage = (props) => {
+    let history = useHistory ();
     const [username , setUsername] = useState('');
     const [password , setPassword] = useState('');
 
@@ -30,6 +31,8 @@ const LoginPage = (props) => {
                 if(res.data.status === "success"){
                     authCtx.login(res.data.data.auth_token);
                     notify(res.data.status,res.data.code,res.data.message);
+                    history.push('/');
+                    history.go();
                 }else{
                     notify(res.data.status,res.data.code,res.data.message);
                 }

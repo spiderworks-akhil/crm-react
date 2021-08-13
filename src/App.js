@@ -22,9 +22,13 @@ function App() {
 
     const loginHandler = (token) => {
         setToken(authCtx.token);
+        history.replace('/');
+        history.go();
     }
     const logoutHandler = () =>{
         authCtx.logout();
+        history.push('/login');
+        history.go();
         setToken();
     }
 
